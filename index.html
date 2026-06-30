@@ -109,6 +109,22 @@ th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;}
 .tab{padding:9px 14px;font-size:13.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
 .tab.active{color:var(--primary-dark);border-color:var(--primary);font-weight:700;}
 
+.section-label{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;display:block;}
+.field-icon-wrap{position:relative;}
+.field-icon-wrap .ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--muted);pointer-events:none;}
+.field-icon-wrap select, .field-icon-wrap input{padding-left:36px !important;}
+.input-nice{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;outline:none;background:#fff;font-size:14px;}
+.input-nice:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(22,163,74,.12);}
+select.input-nice{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2364748b' viewBox='0 0 16 16'><path d='M8 11L3 6h10z'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+.juz-highlight{border-color:var(--primary) !important;box-shadow:0 0 0 3px rgba(22,163,74,.12);}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.penilaian-box{background:var(--primary-light);border-radius:12px;padding:16px;margin:16px 0;}
+.penilaian-box .ptitle{font-size:12.5px;font-weight:700;color:var(--primary-dark);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.poin-info{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:11px 14px;font-size:13px;color:#92400e;display:flex;align-items:center;gap:8px;margin-bottom:16px;}
+.poin-info b{font-size:15px;}
+@media (max-width: 700px){ .grid3,.grid2{grid-template-columns:1fr;} }
+
 .empty-state{text-align:center;color:var(--muted);padding:30px 10px;font-size:13.5px;}
 
 /* Print views (hidden on screen) */
@@ -221,41 +237,172 @@ th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;}
       <!-- SETORAN -->
       <section class="page" id="page-setoran">
         <div class="tabs">
-          <div class="tab active" data-jenis="input" onclick="switchSetoranTab('input')">Input Setoran</div>
-          <div class="tab" data-jenis="riwayat" onclick="switchSetoranTab('riwayat')">Riwayat</div>
+          <div class="tab active" data-tab="quran" onclick="switchSetoranTab('quran')">📖 Setoran Al-Qur'an</div>
+          <div class="tab" data-tab="doa" onclick="switchSetoranTab('doa')">🤲 Setoran Doa Harian</div>
+          <div class="tab" data-tab="kalimat" onclick="switchSetoranTab('kalimat')">✨ Kalimat Thayyibah</div>
+          <div class="tab" data-tab="riwayat" onclick="switchSetoranTab('riwayat')">🕓 Riwayat</div>
         </div>
 
-        <div id="setoranInputTab">
+        <!-- TAB: SETORAN AL-QUR'AN -->
+        <div id="tabQuran">
           <div class="card">
-            <form id="formSetoran">
-              <div class="row2">
-                <div class="field"><label>Pilih Siswa</label><select id="setNisn" required onchange="onSetoranSiswaChange()"></select></div>
-                <div class="field"><label>Jenis Setoran</label>
-                  <select id="setJenis" required onchange="onJenisChange()">
-                    <option value="quran">Al-Qur'an (per Juz)</option>
-                    <option value="doa">Doa Harian</option>
-                    <option value="kalimat">Kalimat Thayyibah</option>
-                  </select>
+            <form id="formSetoranQuran">
+              <span class="section-label">Pilih Siswa</span>
+              <div class="field-icon-wrap" style="margin-bottom:16px;">
+                <span class="ico">🧑‍🎓</span>
+                <select class="input-nice" id="qNisn" required><option value="">— Cari &amp; Pilih Nama Siswa —</option></select>
+              </div>
+
+              <div class="grid3">
+                <div>
+                  <span class="section-label">Juz</span>
+                  <select class="input-nice juz-highlight" id="qJuz" required></select>
+                </div>
+                <div>
+                  <span class="section-label">Nama Surat</span>
+                  <input class="input-nice" id="qSurat" type="text" placeholder="Ketik nama surat, misal: Al-Baqarah...">
+                </div>
+                <div>
+                  <span class="section-label">Halaman (opsional)</span>
+                  <input class="input-nice" id="qHalaman" type="text" placeholder="No. Halaman">
                 </div>
               </div>
-              <div class="row2" id="quranFields">
-                <div class="field"><label>Juz</label><select id="setJuz"></select></div>
-                <div class="field"><label>Khatam juz ini?</label>
-                  <select id="setJuzKhatam"><option value="0">Belum</option><option value="1">Ya, Khatam</option></select>
+
+              <div class="grid2" style="margin-top:14px;">
+                <div>
+                  <span class="section-label">Ayat Dari</span>
+                  <input class="input-nice" id="qAyatDari" type="number" min="1" placeholder="Ayat mulai">
+                </div>
+                <div>
+                  <span class="section-label">Sampai Ayat</span>
+                  <input class="input-nice" id="qAyatSampai" type="number" min="1" placeholder="Ayat selesai">
                 </div>
               </div>
-              <div class="field hidden" id="itemFieldWrap"><label id="itemFieldLabel">Pilih Item</label><select id="setItemNama"></select></div>
-              <div class="row2">
-                <div class="field"><label>Nilai</label><select id="setNilai"><option value="A">A - Sangat Baik</option><option value="B">B - Baik</option><option value="C">C - Cukup</option></select></div>
-                <div class="field"><label>Status</label><select id="setStatus"><option value="Lancar">Lancar</option><option value="Cukup">Cukup</option><option value="Perlu Perbaikan">Perlu Perbaikan</option></select></div>
+
+              <div class="penilaian-box">
+                <div class="ptitle">⭐ PENILAIAN BACAAN</div>
+                <div class="grid2">
+                  <div>
+                    <span class="section-label">Kelancaran</span>
+                    <select class="input-nice" id="qStatus" onchange="updateEstimasiPoin('quran')">
+                      <option value="Lancar">🟢 Lancar (+20 Poin)</option>
+                      <option value="Cukup">🟡 Cukup (+0 Poin)</option>
+                      <option value="Perlu Perbaikan">🔴 Perlu Perbaikan (-20 Poin)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <span class="section-label">Nilai Makhraj &amp; Tajwid</span>
+                    <select class="input-nice" id="qNilai" onchange="updateEstimasiPoin('quran')">
+                      <option value="A">⭐ A — Sangat Baik (100 Poin)</option>
+                      <option value="B">⭐ B — Baik (80 Poin)</option>
+                      <option value="C">⭐ C — Cukup (60 Poin)</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div class="field"><label>Catatan (opsional)</label><textarea id="setCatatan" rows="2"></textarea></div>
-              <button class="btn btn-primary" type="submit">Simpan Setoran</button>
+
+              <div style="margin-bottom:14px;">
+                <span class="section-label">Tandai Khatam Juz Ini?</span>
+                <select class="input-nice" id="qJuzKhatam"><option value="0">Belum khatam</option><option value="1">✅ Ya, juz ini khatam disetorkan</option></select>
+              </div>
+
+              <div style="margin-bottom:14px;">
+                <span class="section-label">Catatan (opsional)</span>
+                <textarea class="input-nice" id="qCatatan" rows="2"></textarea>
+              </div>
+
+              <div class="poin-info">⚡ Estimasi poin: <b id="qEstimasi">120</b> Poin (dihitung otomatis oleh sistem)</div>
+              <button class="btn btn-primary" type="submit">Simpan Setoran Al-Qur'an</button>
             </form>
           </div>
         </div>
 
-        <div id="setoranRiwayatTab" class="hidden">
+        <!-- TAB: SETORAN DOA HARIAN -->
+        <div id="tabDoa" class="hidden">
+          <div class="card">
+            <form id="formSetoranDoa">
+              <span class="section-label">Pilih Siswa</span>
+              <div class="field-icon-wrap" style="margin-bottom:16px;">
+                <span class="ico">🧑‍🎓</span>
+                <select class="input-nice" id="dNisn" required><option value="">— Cari &amp; Pilih Nama Siswa —</option></select>
+              </div>
+              <span class="section-label">Pilih Doa Harian</span>
+              <div class="field-icon-wrap" style="margin-bottom:16px;">
+                <span class="ico">🤲</span>
+                <select class="input-nice" id="dItem" required><option value="">— Pilih Doa —</option></select>
+              </div>
+              <div class="penilaian-box">
+                <div class="ptitle">⭐ PENILAIAN HAFALAN</div>
+                <div class="grid2">
+                  <div>
+                    <span class="section-label">Kelancaran</span>
+                    <select class="input-nice" id="dStatus" onchange="updateEstimasiPoin('doa')">
+                      <option value="Lancar">🟢 Lancar (+20 Poin)</option>
+                      <option value="Cukup">🟡 Cukup (+0 Poin)</option>
+                      <option value="Perlu Perbaikan">🔴 Perlu Perbaikan (-20 Poin)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <span class="section-label">Nilai Hafalan</span>
+                    <select class="input-nice" id="dNilai" onchange="updateEstimasiPoin('doa')">
+                      <option value="A">⭐ A — Sangat Baik (100 Poin)</option>
+                      <option value="B">⭐ B — Baik (80 Poin)</option>
+                      <option value="C">⭐ C — Cukup (60 Poin)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:14px;"><span class="section-label">Catatan (opsional)</span><textarea class="input-nice" id="dCatatan" rows="2"></textarea></div>
+              <div class="poin-info">⚡ Estimasi poin: <b id="dEstimasi">120</b> Poin (dihitung otomatis oleh sistem)</div>
+              <button class="btn btn-primary" type="submit">Simpan Setoran Doa Harian</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- TAB: SETORAN KALIMAT THAYYIBAH -->
+        <div id="tabKalimat" class="hidden">
+          <div class="card">
+            <form id="formSetoranKalimat">
+              <span class="section-label">Pilih Siswa</span>
+              <div class="field-icon-wrap" style="margin-bottom:16px;">
+                <span class="ico">🧑‍🎓</span>
+                <select class="input-nice" id="kNisn" required><option value="">— Cari &amp; Pilih Nama Siswa —</option></select>
+              </div>
+              <span class="section-label">Pilih Kalimat Thayyibah</span>
+              <div class="field-icon-wrap" style="margin-bottom:16px;">
+                <span class="ico">✨</span>
+                <select class="input-nice" id="kItem" required><option value="">— Pilih Kalimat —</option></select>
+              </div>
+              <div class="penilaian-box">
+                <div class="ptitle">⭐ PENILAIAN HAFALAN</div>
+                <div class="grid2">
+                  <div>
+                    <span class="section-label">Kelancaran</span>
+                    <select class="input-nice" id="kStatus" onchange="updateEstimasiPoin('kalimat')">
+                      <option value="Lancar">🟢 Lancar (+20 Poin)</option>
+                      <option value="Cukup">🟡 Cukup (+0 Poin)</option>
+                      <option value="Perlu Perbaikan">🔴 Perlu Perbaikan (-20 Poin)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <span class="section-label">Nilai Hafalan</span>
+                    <select class="input-nice" id="kNilai" onchange="updateEstimasiPoin('kalimat')">
+                      <option value="A">⭐ A — Sangat Baik (100 Poin)</option>
+                      <option value="B">⭐ B — Baik (80 Poin)</option>
+                      <option value="C">⭐ C — Cukup (60 Poin)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:14px;"><span class="section-label">Catatan (opsional)</span><textarea class="input-nice" id="kCatatan" rows="2"></textarea></div>
+              <div class="poin-info">⚡ Estimasi poin: <b id="kEstimasi">120</b> Poin (dihitung otomatis oleh sistem)</div>
+              <button class="btn btn-primary" type="submit">Simpan Setoran Kalimat Thayyibah</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- TAB: RIWAYAT -->
+        <div id="tabRiwayat" class="hidden">
           <div class="toolbar">
             <select id="riwayatFilterKelas" onchange="loadRiwayat()"></select>
             <select id="riwayatFilterJenis" onchange="loadRiwayat()">
@@ -265,7 +412,7 @@ th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;}
               <option value="kalimat">Kalimat Thayyibah</option>
             </select>
           </div>
-          <div class="card"><div class="table-wrap"><table id="tblRiwayat"><thead><tr><th>Tanggal</th><th>Nama</th><th>Kelas</th><th>Jenis</th><th>Item</th><th>Nilai</th><th>Status</th><th>Poin</th><th>Guru</th><th>Aksi</th></tr></thead><tbody></tbody></table></div></div>
+          <div class="card"><div class="table-wrap"><table id="tblRiwayat"><thead><tr><th>Tanggal</th><th>Nama</th><th>Kelas</th><th>Jenis</th><th>Item</th><th>Nilai</th><th>Kelancaran</th><th>Poin</th><th>Guru</th><th>Aksi</th></tr></thead><tbody></tbody></table></div></div>
         </div>
       </section>
 
@@ -593,7 +740,7 @@ function openSiswaModal(nisn) {
   document.getElementById('msNisnOld').value = '';
   document.getElementById('msNisn').disabled = false;
   if (nisn) {
-    var s = state.siswaCache.find(function(x) { return x.nisn === nisn; });
+    var s = state.siswaCache.find(function(x) { return String(x.nisn) === String(nisn); });
     document.getElementById('modalSiswaTitle').textContent = 'Edit Siswa';
     document.getElementById('msNisnOld').value = nisn;
     document.getElementById('msNisn').value = s.nisn;
@@ -624,60 +771,109 @@ async function hapusSiswa(nisn) {
 
 /* ====================== SETORAN ====================== */
 function switchSetoranTab(tab) {
-  document.querySelectorAll('#page-setoran .tab').forEach(function(t) { t.classList.toggle('active', t.dataset.jenis === tab); });
-  document.getElementById('setoranInputTab').classList.toggle('hidden', tab !== 'input');
-  document.getElementById('setoranRiwayatTab').classList.toggle('hidden', tab !== 'riwayat');
+  document.querySelectorAll('#page-setoran .tab').forEach(function(t) { t.classList.toggle('active', t.dataset.tab === tab); });
+  document.getElementById('tabQuran').classList.toggle('hidden', tab !== 'quran');
+  document.getElementById('tabDoa').classList.toggle('hidden', tab !== 'doa');
+  document.getElementById('tabKalimat').classList.toggle('hidden', tab !== 'kalimat');
+  document.getElementById('tabRiwayat').classList.toggle('hidden', tab !== 'riwayat');
   if (tab === 'riwayat') loadRiwayat();
+}
+
+function hitungPoinClient(nilai, status) {
+  var poin = 0;
+  if (nilai === 'A') poin = 100; else if (nilai === 'B') poin = 80; else if (nilai === 'C') poin = 60;
+  if (status === 'Lancar') poin += 20;
+  if (status === 'Perlu Perbaikan') poin -= 20;
+  return poin;
+}
+function updateEstimasiPoin(jenis) {
+  var prefix = jenis === 'quran' ? 'q' : (jenis === 'doa' ? 'd' : 'k');
+  var nilai = document.getElementById(prefix + 'Nilai').value;
+  var status = document.getElementById(prefix + 'Status').value;
+  document.getElementById(prefix + 'Estimasi').textContent = hitungPoinClient(nilai, status);
+}
+
+function buildSiswaOptions(selectEl) {
+  selectEl.innerHTML = '<option value="">— Cari &amp; Pilih Nama Siswa —</option>' +
+    state.siswaCache.map(function(s) {
+      return '<option value="' + s.nisn + '" data-nama="' + escHtml(s.nama) + '" data-kelas="' + escHtml(s.kelas) + '">' + escHtml(s.nama) + ' (' + s.kelas + ')</option>';
+    }).join('');
 }
 
 async function loadSetoranPage() {
   var resSiswa = await callApi('getSiswaList', [state.token, 'semua'], false);
   if (resSiswa.status === 'success') {
     state.siswaCache = resSiswa.data;
-    document.getElementById('setNisn').innerHTML = resSiswa.data.map(function(s) {
-      return '<option value="' + s.nisn + '" data-nama="' + escHtml(s.nama) + '" data-kelas="' + escHtml(s.kelas) + '">' + escHtml(s.nama) + ' (' + s.kelas + ')</option>';
-    }).join('') || '<option value="">Belum ada siswa</option>';
+    buildSiswaOptions(document.getElementById('qNisn'));
+    buildSiswaOptions(document.getElementById('dNisn'));
+    buildSiswaOptions(document.getElementById('kNisn'));
   }
-  document.getElementById('setJuz').innerHTML = JUZ_ORDER.map(function(j) { return '<option value="' + j + '">Juz ' + j + '</option>'; }).join('');
+  document.getElementById('qJuz').innerHTML = JUZ_ORDER.map(function(j) { return '<option value="' + j + '">Juz ' + j + '</option>'; }).join('');
 
   var resDoa = await callApi('getDaftarDoa', [state.token], false);
-  if (resDoa.status === 'success') state.doaCache = resDoa.data;
-  var resKal = await callApi('getDaftarKalimat', [state.token], false);
-  if (resKal.status === 'success') state.kalimatCache = resKal.data;
-
-  onJenisChange();
-}
-
-function onJenisChange() {
-  var jenis = document.getElementById('setJenis').value;
-  document.getElementById('quranFields').classList.toggle('hidden', jenis !== 'quran');
-  document.getElementById('itemFieldWrap').classList.toggle('hidden', jenis === 'quran');
-  if (jenis !== 'quran') {
-    var list = jenis === 'doa' ? state.doaCache : state.kalimatCache;
-    document.getElementById('itemFieldLabel').textContent = jenis === 'doa' ? 'Pilih Doa Harian' : 'Pilih Kalimat Thayyibah';
-    document.getElementById('setItemNama').innerHTML = list.map(function(i) { return '<option value="' + escHtml(i.nama) + '">' + escHtml(i.nama) + '</option>'; }).join('') || '<option value="">Belum ada data</option>';
+  if (resDoa.status === 'success') {
+    state.doaCache = resDoa.data;
+    document.getElementById('dItem').innerHTML = '<option value="">— Pilih Doa —</option>' + state.doaCache.map(function(i) { return '<option value="' + escHtml(i.nama) + '">' + escHtml(i.nama) + '</option>'; }).join('');
   }
+  var resKal = await callApi('getDaftarKalimat', [state.token], false);
+  if (resKal.status === 'success') {
+    state.kalimatCache = resKal.data;
+    document.getElementById('kItem').innerHTML = '<option value="">— Pilih Kalimat —</option>' + state.kalimatCache.map(function(i) { return '<option value="' + escHtml(i.nama) + '">' + escHtml(i.nama) + '</option>'; }).join('');
+  }
+  updateEstimasiPoin('quran'); updateEstimasiPoin('doa'); updateEstimasiPoin('kalimat');
 }
-function onSetoranSiswaChange() {}
 
-document.getElementById('formSetoran').addEventListener('submit', async function(e) {
+async function submitSetoran(jenis, payload) {
+  var res = await callApi('addSetoran', [state.token, payload]);
+  showToast(res.message, res.status === 'success' ? 'success' : 'error');
+  return res.status === 'success';
+}
+
+document.getElementById('formSetoranQuran').addEventListener('submit', async function(e) {
   e.preventDefault();
-  var sel = document.getElementById('setNisn');
+  var sel = document.getElementById('qNisn');
   var opt = sel.options[sel.selectedIndex];
   if (!opt || !opt.value) { showToast('Pilih siswa terlebih dahulu.', 'error'); return; }
-  var jenis = document.getElementById('setJenis').value;
-  var form = {
-    nisn: opt.value, nama_siswa: opt.dataset.nama, kelas: opt.dataset.kelas, jenis: jenis,
-    juz: jenis === 'quran' ? document.getElementById('setJuz').value : '',
-    juz_khatam: jenis === 'quran' && document.getElementById('setJuzKhatam').value === '1',
-    item_nama: jenis !== 'quran' ? document.getElementById('setItemNama').value : '',
-    nilai: document.getElementById('setNilai').value,
-    status: document.getElementById('setStatus').value,
-    catatan: document.getElementById('setCatatan').value.trim()
-  };
-  var res = await callApi('addSetoran', [state.token, form]);
-  showToast(res.message, res.status === 'success' ? 'success' : 'error');
-  if (res.status === 'success') { document.getElementById('formSetoran').reset(); onJenisChange(); }
+  var ok = await submitSetoran('quran', {
+    nisn: opt.value, nama_siswa: opt.dataset.nama, kelas: opt.dataset.kelas, jenis: 'quran',
+    juz: document.getElementById('qJuz').value, surat: document.getElementById('qSurat').value.trim(),
+    halaman: document.getElementById('qHalaman').value.trim(),
+    ayat_dari: document.getElementById('qAyatDari').value, ayat_sampai: document.getElementById('qAyatSampai').value,
+    juz_khatam: document.getElementById('qJuzKhatam').value === '1',
+    nilai: document.getElementById('qNilai').value, status: document.getElementById('qStatus').value,
+    catatan: document.getElementById('qCatatan').value.trim()
+  });
+  if (ok) { document.getElementById('formSetoranQuran').reset(); updateEstimasiPoin('quran'); }
+});
+
+document.getElementById('formSetoranDoa').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  var sel = document.getElementById('dNisn');
+  var opt = sel.options[sel.selectedIndex];
+  if (!opt || !opt.value) { showToast('Pilih siswa terlebih dahulu.', 'error'); return; }
+  if (!document.getElementById('dItem').value) { showToast('Pilih doa harian terlebih dahulu.', 'error'); return; }
+  var ok = await submitSetoran('doa', {
+    nisn: opt.value, nama_siswa: opt.dataset.nama, kelas: opt.dataset.kelas, jenis: 'doa',
+    item_nama: document.getElementById('dItem').value,
+    nilai: document.getElementById('dNilai').value, status: document.getElementById('dStatus').value,
+    catatan: document.getElementById('dCatatan').value.trim()
+  });
+  if (ok) { document.getElementById('formSetoranDoa').reset(); updateEstimasiPoin('doa'); }
+});
+
+document.getElementById('formSetoranKalimat').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  var sel = document.getElementById('kNisn');
+  var opt = sel.options[sel.selectedIndex];
+  if (!opt || !opt.value) { showToast('Pilih siswa terlebih dahulu.', 'error'); return; }
+  if (!document.getElementById('kItem').value) { showToast('Pilih kalimat thayyibah terlebih dahulu.', 'error'); return; }
+  var ok = await submitSetoran('kalimat', {
+    nisn: opt.value, nama_siswa: opt.dataset.nama, kelas: opt.dataset.kelas, jenis: 'kalimat',
+    item_nama: document.getElementById('kItem').value,
+    nilai: document.getElementById('kNilai').value, status: document.getElementById('kStatus').value,
+    catatan: document.getElementById('kCatatan').value.trim()
+  });
+  if (ok) { document.getElementById('formSetoranKalimat').reset(); updateEstimasiPoin('kalimat'); }
 });
 
 async function loadRiwayat() {
@@ -686,9 +882,12 @@ async function loadRiwayat() {
   var res = await callApi('getSetoranList', [state.token, kelas, jenis]);
   if (res.status !== 'success') { showToast(res.message, 'error'); return; }
   document.querySelector('#tblRiwayat tbody').innerHTML = res.data.map(function(s) {
+    var itemDisplay = s.jenis === 'quran'
+      ? ('Juz ' + s.juz + (s.surat ? (' - ' + escHtml(s.surat)) : '') + (s.juz_khatam ? ' ✅' : ''))
+      : escHtml(s.item_nama);
     return '<tr><td>' + s.tanggal + '</td><td>' + escHtml(s.nama) + '</td><td>' + escHtml(s.kelas) + '</td>' +
       '<td><span class="badge ' + jenisBadgeClass(s.jenis) + '">' + jenisLabel(s.jenis) + '</span></td>' +
-      '<td>' + escHtml(s.jenis === 'quran' ? ('Juz ' + s.juz + (s.juz_khatam ? ' ✅' : '')) : s.item_nama) + '</td>' +
+      '<td>' + itemDisplay + '</td>' +
       '<td>' + escHtml(s.nilai) + '</td><td>' + escHtml(s.status) + '</td><td>' + s.poin + '</td><td>' + escHtml(s.guru) + '</td>' +
       '<td>' + (state.role === 'admin' ? '<button class="btn btn-danger btn-sm" onclick="hapusSetoran(\'' + s.id_setoran + '\')">Hapus</button>' : '-') + '</td></tr>';
   }).join('') || '<tr><td colspan="10" class="empty-state">Belum ada riwayat</td></tr>';
@@ -734,7 +933,7 @@ async function loadLaporanSiswaSelect() {
 }
 function onLapSiswaChange() {
   var nisn = document.getElementById('lapSiswaSelect').value;
-  var s = (state.laporanCache.siswa || []).find(function(x) { return x.nisn === nisn; });
+  var s = (state.laporanCache.siswa || []).find(function(x) { return String(x.nisn) === String(nisn); });
   var juzSel = document.getElementById('lapJuzSelect');
   if (!s || !s.setoran) { juzSel.innerHTML = '<option value="">-</option>'; return; }
   var juzKhatam = [];
